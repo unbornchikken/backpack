@@ -1,3 +1,4 @@
 module.exports = {
-    system: require("./system")
+    system: require("./lib/system"),
+    collections: require("./lib/collections")
 }
