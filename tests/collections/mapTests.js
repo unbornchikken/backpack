@@ -16,29 +16,31 @@ module.exports = {
             d: "foo"
         };
 
-        test.equals(Map.prototype._genKey(a), "foo");
-        test.equals(Map.prototype._genKey(a.b.c.d.e.f), "55");
-        test.equals(Map.prototype._genKey(a.b.c.d.e), "55");
-        test.equals(Map.prototype._genKey(a.b.c.d), "55");
-        test.equals(Map.prototype._genKey(a.b.c), Map.OBJECT);
+        test.equals(Map._genKey(a), "bcddfoo");
+        test.equals(Map._genKey(a.b.c.d.e.f), "55");
+        test.equals(Map._genKey(a.b.c.d.e), "f55");
+        test.equals(Map._genKey(a.b.c.d), "ef55");
+        test.equals(Map._genKey(a.b.c), "def");
 
         a = {
-            a1: "a1",
-            a2: "a2",
-            a3: "a3",
-            a4: "a4",
+            a1: "A1",
+            a2: "A2",
+            a3: "A3",
+            a4: "A4",
             b: {
-                a1: "b1",
-                a2: "b2",
-                a3: "b3",
-                a4: "b4"
+                c1: "C1",
+                c2: "C2",
+                c3: "C3",
+                c4: "C4"
             },
-            a5: "a5",
-            a6: "a6",
-            a7: "a7",
-            a8: "a8",
-            a9: "a9"
+            a5: "A5",
+            a6: "A6",
+            a7: "A7",
+            a8: "A8",
+            a9: "A9"
         };
+
+        test.equals(Map._genKey(a), "bcddfoo");
 
         test.done();
     }
