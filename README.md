@@ -177,3 +177,37 @@ myMap.add(1, "a");
     // Value: a
     // Value: b
     ```
+
+### StrMap
+
+This class has exactly the same interface like the Map, but keys have to be strings only. Basically it's a wrapper around a standard object extended by a count property.
+
+#### Usage:
+
+```javascript
+var StrMap = require("backpack").collections.StrMap;
+var myMap = new StrMap();
+myMap.add("42", new Date().now());
+```
+
+## Set
+
+### Usage:
+
+```javascript
+var Set = require("backpack").collections.Set;
+set.add(5);
+set.add("bubu");
+```
+
+#### Reference:
+
+*Properties:*
+
+- **count** 
+    
+    Returns the items count.
+
+*Methods:*
+
+- **add**(key)
