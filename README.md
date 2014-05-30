@@ -35,29 +35,29 @@ myMap.add(1, "a");
 *Properties:*
 
 - **count** 
-     
-⋅⋅⋅Returns the items count.
+    
+    Returns the items count.
 
 *Methods:*
 
-function **add**(key, value)
+-   function **add**(key, value)
 
-Adds and item to the map. It will throw if item is already exists.
+    Adds and item to the map. It will throw if item is already exists.
 
-function **set** (key, value, throwIfExists)
+-   function **set** (key, value, throwIfExists)
 
-Adds and item to the map. It will throw if item is already exists when 'throwIfExists' argument is true, item will be overwritten otherwise.
+    Adds and item to the map. It will throw if item is already exists when 'throwIfExists' argument is true, item will be overwritten otherwise.
 
-function **get** (key)
+- function **get** (key)
 
-function **remove** (key)
+- function **remove** (key)
 
-function **containsKey** (key)
+- function **containsKey** (key)
 
-function **clear** ()
+- function **clear** ()
 
-function **forEach** (f)
+- function **forEach** (f)
 
-function **forEachKey** (f)
+- function **forEachKey** (f)
 
-function **forEachValue** (f)
+- function **forEachValue** (f)
