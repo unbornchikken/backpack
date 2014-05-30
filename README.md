@@ -40,23 +40,55 @@ myMap.add(1, "a");
 
 *Methods:*
 
--   function **add**(key, value)
+- function **add**(key, value)
 
     Adds and item to the map. It will throw if item is already exists.
 
--   function **set** (key, value, throwIfExists)
+- function **set** (key, value, throwIfExists)
 
     Adds and item to the map. It will throw if item is already exists when 'throwIfExists' argument is true, item will be overwritten otherwise.
 
 - function **get** (key)
 
+    Returns item by key. 
+    
+    If it not found the result will be *undefined*.
+
 - function **remove** (key)
+
+    Removes item by key. 
+    
+    If it found and successfully removed result will be *true*, if not found result will be *false*.
 
 - function **containsKey** (key)
 
+    If item found by key result will be *true*, if not found result will be *false*.
+
 - function **clear** ()
 
+    Clears the map.
+
 - function **forEach** (f)
+
+    The function argument will be called for each item.
+    
+    Example:
+    
+    ```javascript
+    var myMap = new Map();
+    myMap.add(1, "a");
+    myMap.add(2, "b");
+    myMap.forEach(function (item)
+    {
+        console.log("Key: " + item.key);
+        console.log("Value: " + item.value);
+    });
+    // output will be:
+    // Key: 1
+    // Value: a
+    // Key: 2
+    // Value: b
+    ```
 
 - function **forEachKey** (f)
 
