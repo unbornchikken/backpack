@@ -150,7 +150,7 @@ myMap.add(1, "a");
     var myMap = new Map();
     myMap.add(1, "a");
     myMap.add(2, "b");
-    myMap.forEach(function (key)
+    myMap.forEachKey(function (key)
     {
         console.log("Key: " + key);
     });
@@ -169,7 +169,7 @@ myMap.add(1, "a");
     var myMap = new Map();
     myMap.add(1, "a");
     myMap.add(2, "b");
-    myMap.forEach(function (value)
+    myMap.forEachValue(function (value)
     {
         console.log("Value: " + value);
     });
