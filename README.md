@@ -90,35 +90,35 @@ myMap.add(1, "a");
 
 *Methods:*
 
-- function **add**(key, value)
+- **add**(key, value)
 
     Adds and item to the map. It will throw if item is already exists.
 
-- function **set** (key, value, throwIfExists)
+- **set** (key, value, throwIfExists)
 
     Adds and item to the map. It will throw if item is already exists when 'throwIfExists' argument is true, item will be overwritten otherwise.
 
-- function **get** (key)
+- **get** (key)
 
     Returns item by key. 
     
     If it not found the result will be *undefined*.
 
-- function **remove** (key)
+- **remove** (key)
 
     Removes item by key. 
     
     If it found and successfully removed result will be *true*, if not found result will be *false*.
 
-- function **containsKey** (key)
+- **containsKey** (key)
 
     If item found by key result will be *true*, if not found result will be *false*.
 
-- function **clear** ()
+- **clear** ()
 
     Clears the map.
 
-- function **forEach** (f)
+- **forEach** (f)
 
     The function argument will be called for each item.
     
@@ -140,7 +140,7 @@ myMap.add(1, "a");
     // Value: b
     ```
 
-- function **forEachKey** (f)
+- **forEachKey** (f)
 
     The function argument will be called for each key.
     
@@ -159,7 +159,7 @@ myMap.add(1, "a");
     // Key: 2
     ```
 
-- function **forEachValue** (f)
+- **forEachValue** (f)
 
     The function argument will be called for each value.
         
