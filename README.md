@@ -9,6 +9,60 @@ Class library of useful things for Node.js
 The aim of this library is to provide a collection of classes in one place like those can be found in other frameworks, 
 but are not bundled in Node.js, even are not exists on the npm.org.
 
+## System
+
+### Serializer
+
+Finally true serialization have brought to Node.js! 
+
+*Features:*
+
+- Pure JS
+- Serializes to JSON or string
+- Handles circular objects
+- Deals with class (prototype) hierarchies
+- Serializes instance methods as well
+
+It's implementation based on the awesome work of Zihua Li: [node-serialize](https://github.com/luin/serialize)
+
+*Usage:*
+
+```javascript
+var Serializer = require("backpack").system.Serializer;
+var s = new Serializer();
+var obj = { a: "foo", b: "boo" };
+obj.c = obj;
+
+var str = s.stringify(obj);
+
+var obj2 = s.parse(str);
+
+// obj and obj2 will be identical yet separate instances
+
+```
+
+*Constructor:*
+
+- **Serializer**(options)
+
+    options:
+    
+    - ignoreNativeFunc (Boolean): 
+        - *true* means objects with native function members won't be serialized (exception will be thrown)
+        - *false* means objects with native function members will be serialized, and exception will be thrown by unserialized native functions when called.
+
+*Methods:*
+
+- **registerKnownType** (typeName, type)
+
+- **stringify** (obj)
+
+- **toJSON** (obj)
+
+- **parse** (str)
+
+- **fromJSON** (json)
+
 ## Collections
 
 Hashed collections are missing from JavaScript. You can create an object, and then put it some other objects keyed by string values, but that's it,
@@ -298,11 +352,8 @@ myBag.add("5", "pupu");
 
 - **set** (key, coll)
 
-    Add the collection behind the specified key. It replaces an original if any exists.
-
-- **get** (key)
-
-    Returns the collection behind the specified key or *undefined* if doesn't exists.
+    Add the collection 'coll' behind the specified key. It replaces an original if exists. 
+    However if the coll is empty it won't be added (there should be no empty collections in the Bag).
 
 - **remove** (key, value)
 
@@ -314,10 +365,100 @@ myBag.add("5", "pupu");
     
     - If value is not *undefined*:
         
-        Poo
+        Removes value from the collection behind the specified key. If the collection turn empty after the removal it will be removed too.
+        
+        Returns *true* if removal occurs *false* otherwise.
 
 - **clear** ()
+
+    Clears the bag.
+    
 - **forEach** (f)
-- **forEachCollection** (f)
+
+    The function argument will be called for each item.
+        
+    Example:
+    
+    ```javascript
+    var myBag = new Bag();
+    myBag.add(1, "a");
+    myBag.add(2, "b");
+    myBag.add(2, "c");
+    
+    myBag.forEach(function (item)
+    {
+        console.log("Key: " + item.key);
+        console.log("Value: " + item.value);
+    });
+    // output will be:
+    // Key: 1
+    // Value: a
+    // Key: 2
+    // Value: b
+    // Key: 2
+    // Value: c
+    ```
+
+- **forEachValueIn** (key, f)
+
+    The function argument will be called for each item in the collection behind the specified key if exists.
+            
+    Example:
+    
+    ```javascript
+    var myBag = new Bag();
+    myBag.add(1, "a");
+    myBag.add(2, "b");
+    myBag.add(2, "c");
+    
+    myBag.forEachValueIn(2, function (value)
+    {
+        console.log("Value: " + value);
+    });
+    // output will be:
+    // Value: b
+    // Value: c
+    ```
+        
 - **forEachKey** (f)
+
+    The function argument will be called for each key.
+            
+    Example:
+    
+    ```javascript
+    var myBag = new Bag();
+    myBag.add(1, "a");
+    myBag.add(2, "b");
+    myBag.add(2, "c");
+    
+    myBag.forEachKey(function (key)
+    {
+        console.log("Key: " + key);
+    });
+    // output will be:
+    // Key: 1
+    // Key: 2
+    ```
+
 - **forEachValue** (f)
+
+    The function argument will be called for each value in the bag.
+        
+    Example:
+    
+    ```javascript
+    var myBag = new Bag();
+    myBag.add(1, "a");
+    myBag.add(2, "b");
+    myBag.add(2, "c");
+    
+    myBag.forEach(function (value)
+    {
+        console.log("Value: " + value);
+    });
+    // output will be:
+    // Value: a
+    // Value: b
+    // Value: c
+    ```
