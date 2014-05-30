@@ -17,7 +17,7 @@
     "node >=0.6.0"
   ],
   "keywords": [
-    "library"
+    "collections,hash,map,set,hashmap,hastable,serialize,serializer"
   ],
   "devDependencies": {
     "nodeunit": "^0.9.0"
