@@ -162,5 +162,41 @@ module.exports = {
             doMapKVPTest(test, i);
         }
         test.done();
+    },
+
+    codeInTheDocsTest: function(test)
+    {
+        var id = 0;
+        function MyObject()
+        {
+            this.id = id++;
+        }
+        MyObject.prototype.toString = function()
+        {
+            return this.id;
+        }
+
+        var myObject = new MyObject();
+        var key = Map._genKey(myObject);
+        test.equals(key, 0);
+
+        function MyOtherObject()
+        {
+            this.id = id++;
+        }
+        MyOtherObject.prototype.getMapKey = function()
+        {
+            return this.id;
+        }
+
+        myOtherObject = new MyOtherObject();
+        key = Map._genKey(myOtherObject);
+        test.equals(key, 1);
+
+        var obj = { a: "foo", b: new MyObject(), c: new MyOtherObject() };
+        key = Map._genKey(obj);
+        test.equals(key, "afoob2c3");
+
+        test.done();
     }
 }

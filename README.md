@@ -90,9 +90,9 @@ myMap.add(1, "a");
 
 *Methods:*
 
-- **add**(key, value)
+- **add** (key, value)
 
-    Adds and item to the map. It will throw if item is already exists.
+    Adds an item to the map. It will throw if item is already exists.
 
 - **set** (key, value, throwIfExists)
 
@@ -102,17 +102,17 @@ myMap.add(1, "a");
 
     Returns item by key. 
     
-    If it not found the result will be *undefined*.
+    If it hasn't found the result will be *undefined*.
 
 - **remove** (key)
 
     Removes item by key. 
     
-    If it found and successfully removed result will be *true*, if not found result will be *false*.
+    If it's found and successfully removed result will be *true*, if not found result will be *false*.
 
 - **containsKey** (key)
 
-    If item found by key result will be *true*, if not found result will be *false*.
+    If item's found by key result will be *true*, if has not found result will be *false*.
 
 - **clear** ()
 
@@ -196,8 +196,9 @@ myMap.add("42", new Date().now());
 
 ```javascript
 var Set = require("backpack").collections.Set;
-set.add(5);
-set.add("bubu");
+var mySet = new Set();
+mySet.add(5);
+mySet.add("bubu");
 ```
 
 #### Reference:
@@ -210,4 +211,113 @@ set.add("bubu");
 
 *Methods:*
 
-- **add**(key)
+- **add** (value)
+
+    Adds item to the set.
+    
+    If item's added it returns *true*, if item's already existed it returns *false*.
+    
+- **remove** (value)
+
+    Removes item from the set.
+    
+    If item's existed and has removed it returns *true*, if item hasn't existed it returns *false*.
+
+- **clear** ()
+
+    Clears the set.
+
+- **exists** (value)
+
+    Returns *true* if item exists, *false* otherwise.
+
+- **forEach** (f)
+
+    The function argument will be called for each value.
+        
+    Example:
+    
+    ```javascript
+    var mySet = new Set();
+    mySet.add("a");
+    mySet.add("b");
+    mySet.forEach(function (value)
+    {
+        console.log("Value: " + value);
+    });
+    // output will be:
+    // Value: a
+    // Value: b
+    ```
+    
+## StrSet
+
+This class has exactly the same interface like the Set, but values have to be strings only.
+
+### Usage:
+
+```javascript
+var StrSet = require("backpack").collections.StrSet;
+var mySet = new StrSet();
+mySet.add("5");
+mySet.add("bubu");
+```
+
+## Bag
+
+Bag is a special kind of Map where one can put into many values behind a single key.
+
+### Usage
+
+```javascript
+var Bag = require("backpack").collections.Bag;
+var myBag = new Bag();
+myBag.add("5", "pupu");
+myBag.add("5", "pupu");
+```
+
+#### Reference:
+
+*Properties:*
+
+- **count** 
+    
+    Returns the items count.
+    
+- **collectionsCount**
+
+    Returns the number of collections (as known as how many unique keys exists in the bag).
+    
+*Methods:*
+
+- **add** (key, value)
+
+    Adds a value into the collection behind the specified key.
+    
+    Returns the number of items reside in the collection behind the key after the addition.
+
+- **set** (key, coll)
+
+    Add the collection behind the specified key. It replaces an original if any exists.
+
+- **get** (key)
+
+    Returns the collection behind the specified key or *undefined* if doesn't exists.
+
+- **remove** (key, value)
+
+    - If value is *undefined*:
+    
+        Removes the collection behind the specified key.
+        
+        Returns *true* if the collection has existed else returns *false*.
+    
+    - If value is not *undefined*:
+        
+        Poo
+
+- **clear** ()
+- **forEach** (f)
+- **forEachCollection** (f)
+- **forEachKey** (f)
+- **forEachValue** (f)
