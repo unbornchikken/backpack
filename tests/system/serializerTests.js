@@ -1,4 +1,5 @@
 var Serializer = require("../../").system.Serializer;
+var util = require("util");
 
 module.exports = {
     serializeCircularTest: function(test)
@@ -9,6 +10,7 @@ module.exports = {
         a.c = a;
         var c = { b: 1, a: a, m: [1, 2, a] };
         c.d = a;
+        c.x = c.m;
 
         var array = [a, c, a, null];
 
@@ -26,6 +28,7 @@ module.exports = {
         test.equals(c2.m[0], c.m[0]);
         test.equals(c2.m[1], c.m[1]);
         test.strictEqual(c2.m[2], c2.a);
+        test.strictEqual(c2.x, c2.m);
 
         test.ok(Array.isArray(array2));
         test.equals(array2.length, array.length);
@@ -40,6 +43,97 @@ module.exports = {
         test.strictEqual(c3.m[2], c3.a);
         test.strictEqual(c3.m[2], array2[0]);
         test.strictEqual(c3.m[2], array2[2]);
+
+        test.done();
+    },
+
+    serializeHiearchyTest: function (test)
+    {
+        function Animal()
+        {
+            this.voice = null;
+        }
+
+        Animal.prototype.makeSound = function()
+        {
+            if (this.voice)
+            {
+                return "I say: " + this.voice + ".";
+            }
+        }
+
+        function Cat()
+        {
+            Animal.call(this);
+            this.voice = "meow";
+        }
+
+        util.inherits(Cat, Animal);
+
+        function Dog()
+        {
+            Animal.call(this);
+            this.voice = "bark";
+        }
+
+        util.inherits(Dog, Animal);
+
+        function SpaceDog()
+        {
+            Dog.call(this);
+            this.voice = "42";
+        }
+
+        util.inherits(SpaceDog, Dog);
+
+        var cat = new Cat();
+        var dog = new Dog();
+        var spaceDog = new SpaceDog();
+        // Add an instance-only function:
+        spaceDog.futureStuff = function()
+        {
+            return "I think, therefore I am.";
+        }
+
+        test.equals(cat.makeSound(), "I say: meow.");
+        test.equals(dog.makeSound(), "I say: bark.");
+        test.equals(spaceDog.makeSound(), "I say: 42.");
+        test.equals(spaceDog.futureStuff(), "I think, therefore I am.");
+        test.ok(cat instanceof Animal);
+        test.ok(cat instanceof Cat);
+        test.ok(dog instanceof Animal);
+        test.ok(dog instanceof Dog);
+        test.ok(spaceDog instanceof Animal);
+        test.ok(spaceDog instanceof Dog);
+        test.ok(spaceDog instanceof SpaceDog);
+
+        var ser = new Serializer();
+        ser.registerKnownType("Cat", Cat);
+        ser.registerKnownType("Dog", Dog);
+        ser.registerKnownType("SpaceDog", SpaceDog);
+
+        var data = ser.stringify(
+            {
+                cat: cat,
+                dog: dog,
+                spaceDog: spaceDog
+            });
+
+        test.ok(typeof data === "string");
+
+        var deserialized = ser.parse(data);
+
+        test.equals(deserialized.cat.makeSound(), "I say: meow.");
+        test.equals(deserialized.dog.makeSound(), "I say: bark.");
+        test.equals(deserialized.spaceDog.makeSound(), "I say: 42.");
+        test.equals(deserialized.spaceDog.futureStuff(), "I think, therefore I am.");
+        test.ok(deserialized.cat instanceof Animal);
+        test.ok(deserialized.cat instanceof Cat);
+        test.ok(deserialized.dog instanceof Animal);
+        test.ok(deserialized.dog instanceof Dog);
+        test.ok(deserialized.spaceDog instanceof Animal);
+        test.ok(deserialized.spaceDog instanceof Dog);
+        test.ok(deserialized.spaceDog instanceof SpaceDog);
 
         test.done();
     }
