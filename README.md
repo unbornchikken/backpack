@@ -29,7 +29,7 @@ It's implementation based on the awesome work of Zihua Li: [node-serialize](http
 *Usage:*
 
 ```javascript
-var Serializer = require("backpack").system.Serializer;
+var Serializer = require("backpack-node").system.Serializer;
 var s = new Serializer();
 var obj = { a: "foo", b: "boo" };
 obj.c = obj;
@@ -194,7 +194,7 @@ For example:
 
 ```javascript
 
-var Map = require("backpack").collections.Map;
+var Map = require("backpack-node").collections.Map;
 
 var id = 0;
 function MyObject()
@@ -240,7 +240,7 @@ The key's equality will be determined by:
 #### Usage:
 
 ```javascript
-var Map = require("backpack").collections.Map;
+var Map = require("backpack-node").collections.Map;
 var myMap = new Map();
 myMap.add(1, "a");
 ```
@@ -350,7 +350,7 @@ This class has exactly the same interface like the Map, but keys have to be stri
 #### Usage:
 
 ```javascript
-var StrMap = require("backpack").collections.StrMap;
+var StrMap = require("backpack-node").collections.StrMap;
 var myMap = new StrMap();
 myMap.add("42", new Date().now());
 ```
@@ -360,7 +360,7 @@ myMap.add("42", new Date().now());
 ### Usage:
 
 ```javascript
-var Set = require("backpack").collections.Set;
+var Set = require("backpack-node").collections.Set;
 var mySet = new Set();
 mySet.add(5);
 mySet.add("bubu");
@@ -422,7 +422,7 @@ This class has exactly the same interface like the Set, but values have to be st
 ### Usage:
 
 ```javascript
-var StrSet = require("backpack").collections.StrSet;
+var StrSet = require("backpack-node").collections.StrSet;
 var mySet = new StrSet();
 mySet.add("5");
 mySet.add("bubu");
@@ -435,7 +435,7 @@ Bag is a special kind of Map, one can put into many values behind a single key.
 ### Usage
 
 ```javascript
-var Bag = require("backpack").collections.Bag;
+var Bag = require("backpack-node").collections.Bag;
 var myBag = new Bag();
 myBag.add("5", "pupu");
 myBag.add("5", "baba");
