@@ -7,7 +7,7 @@ Class library of useful things for Node.js
 ## Purpose
 
 The aim of this library is to provide a collection of classes in one place like those can be found in other frameworks, 
-but are not bundled in Node.js even are not exists on the npm.org.
+but are not bundled in Node.js even are not exists on the npmjs.org.
 
 ## System
 
