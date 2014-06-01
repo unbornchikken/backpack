@@ -1,3 +1,9 @@
+0.1.10
+
+Improved:
+- Built in (collection) types are now serializable by default, no manual type registration required.
+- serializeToJSON / deserializeFromJSON works on complex objects (result gets serialized too);
+
 0.1.9
 
 Added:

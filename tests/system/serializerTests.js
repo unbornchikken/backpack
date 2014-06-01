@@ -1,5 +1,6 @@
 var Serializer = require("../../").system.Serializer;
 var util = require("util");
+var Map = require("../../").collections.Map;
 
 module.exports = {
     serializeCircularTest: function(test)
@@ -194,6 +195,43 @@ module.exports = {
         test.strictEqual(boo2.boo, "boo");
         test.ok(boo2 instanceof Boo);
         test.ok(boo2 instanceof Foo);
+
+        var map = new Map();
+        var foo = new Foo();
+
+        map.add(foo, boo);
+        map.add(boo2, foo);
+
+        ser.registerKnownType("Foo", Foo);
+
+        var mapStr = ser.stringify(map);
+        var map2 = ser.parse(mapStr);
+
+        test.equals(constructed, 1);
+        test.equals(map2.count, 2);
+
+        var fooValue = null;
+        var fooKey = null;
+        map2.forEach(function(kvp)
+        {
+            if (kvp.key instanceof Boo)
+            {
+                test.ok(kvp.value instanceof Foo && !(kvp.value instanceof Boo));
+                fooValue = kvp.value;
+            }
+            else if (kvp.key instanceof Foo)
+            {
+                test.ok(kvp.value instanceof Boo);
+                test.equals(kvp.value.boo, "boo");
+                fooKey = kvp.key;
+            }
+            else
+            {
+                test.fail("This is not possible.");
+            }
+        });
+
+        test.strictEqual(fooKey, fooValue);
 
         test.done();
     }
