@@ -60,7 +60,7 @@ module.exports = {
             {
                 return "I say: " + this.voice + ".";
             }
-        }
+        };
 
         function Cat()
         {
@@ -93,7 +93,7 @@ module.exports = {
         spaceDog.futureStuff = function()
         {
             return "I think, therefore I am.";
-        }
+        };
 
         test.equals(cat.makeSound(), "I say: meow.");
         test.equals(dog.makeSound(), "I say: bark.");
@@ -136,5 +136,65 @@ module.exports = {
         test.ok(deserialized.spaceDog instanceof SpaceDog);
 
         test.done();
+    },
+
+    serializeCustomTest: function (test)
+    {
+        var constructed = 0;
+
+        function Foo()
+        {
+            this.a = "a";
+            this.b = "b";
+        }
+
+        function Boo()
+        {
+            Foo.call(this);
+            this.c = "c";
+            constructed++;
+        }
+
+        util.inherits(Boo, Foo);
+
+        Boo.prototype.serializeToJSON = function()
+        {
+            return {
+                a: this.a,
+                b: this.b,
+                c: this.c
+            };
+        };
+
+        Boo.prototype.deserializeFromJSON = function(json)
+        {
+            this.a = json.a;
+            this.b = json.b;
+            this.c = json.c;
+            this.boo = "boo";
+        };
+
+        var ser = new Serializer();
+        ser.registerKnownType("Boo", Boo);
+
+        var boo = new Boo();
+
+        test.equals(constructed, 1);
+        test.equals(boo.a, "a");
+        test.equals(boo.b, "b");
+        test.equals(boo.c, "c");
+        test.strictEqual(boo.boo, undefined);
+
+        var boo2 = ser.fromJSON(ser.toJSON(boo));
+
+        test.equals(constructed, 1);
+        test.equals(boo2.a, "a");
+        test.equals(boo2.b, "b");
+        test.equals(boo2.c, "c");
+        test.strictEqual(boo2.boo, "boo");
+        test.ok(boo2 instanceof Boo);
+        test.ok(boo2 instanceof Foo);
+
+        test.done();
     }
-}
+};
