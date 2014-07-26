@@ -1,5 +1,3 @@
-module.exports = {
-    mapTests: require("./mapTests"),
-    strMapTest: require("./strMapTests"),
-    setTests: require("./setTests")
-}
+require("./mapTests");
+require("./strMapTests");
+require("./setTests");

@@ -1,3 +1,1 @@
-module.exports = {
-    serializerTests: require("./serializerTests")
-}
+require("./serializerTests");
