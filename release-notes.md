@@ -1,3 +1,20 @@
+0.1.12
+
+Changed:
+- Mocha instead of nodeunit
+- Lodash instead of underscore
+
+Improved:
+- StrSet wont serialize count
+- StrSet.add: key won't verified twice
+
+Started:
+- Harmony collections support (not yet implemented, because there is no way to iterate through elements)
+
+0.1.11
+
+Various bugfixes
+
 0.1.10
 
 Improved:
@@ -7,7 +24,7 @@ Improved:
 0.1.9
 
 Added:
-- Serializer improvements: serializeToJSON, deserializeFromJSON methods (not in the readme yet, see: tests/system/serializeTest/serializeCustomTest for details)
+- Serializer improvements: serializeToJSON, deserializeFromJSON methods (not in the readme yet, see: tests/system/serializeTest.js "should support custom serialization" test for details)
 
 0.1.8 
 

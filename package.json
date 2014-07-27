@@ -1,6 +1,6 @@
 {
   "name": "backpack-node",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "author": "Gabor Mezo",
   "description": "Class library of useful things for Node.js",
   "homepage": "https://github.com/unbornchikken/backpack",
