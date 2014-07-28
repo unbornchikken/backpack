@@ -1,4 +1,2 @@
-module.exports = {
-    system: require("./system"),
-    collections: require("./collections")
-}
+require("./system");
+require("./collections");

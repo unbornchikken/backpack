@@ -591,5 +591,5 @@ which brings GPGPU based machine learning to te platform. Also I'm heading towar
 ## Credits
 
 - Zihua Li [node-serialize](https://github.com/luin/serialize)
-- Jeremy Ashkenas, Joon Ho Cho [underscore-node](https://github.com/joonhocho/underscore-node)
+- Jeremy Ashkenas, Joon Ho Cho [lodash](https://github.com/joonhocho/lodash)
 - Caolan McMahon [nodeunit](https://github.com/caolan/nodeunit)
