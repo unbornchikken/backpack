@@ -9,9 +9,6 @@
     "url": "https://github.com/unbornchikken/backpack.git"
   },
   "main": "./index",
-  "scripts": {
-    "test": "node node_modules/nodeunit/bin/nodeunit tests/index.js"
-  },
   "licenses": "MIT",
   "engines": [
     "node >=0.6.0"

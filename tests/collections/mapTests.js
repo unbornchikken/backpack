@@ -1,7 +1,7 @@
 var Map = require("../../").collections.Map;
 var assert = require("assert");
 
-function doMapKVPTest(promoteAt)
+function doMapKVPTest(promoteAt, forceES6Map)
 {
     var pp;
     if (promoteAt)
@@ -11,7 +11,9 @@ function doMapKVPTest(promoteAt)
     }
     try
     {
-        var map = new Map();
+        var map = new Map({
+            forceES6Map: forceES6Map
+        });
         assert.equal(map.count, 0);
 
         map.set("5", 5);
@@ -195,10 +197,10 @@ describe("Map", function ()
     {
         it("should work as expected", function()
         {
-            doMapKVPTest();
+            doMapKVPTest(true);
             for (var i = 1; i < 16; i++)
             {
-                doMapKVPTest(i);
+                doMapKVPTest(i, i % 2 === 0);
             }
         });
     });
