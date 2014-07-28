@@ -1,3 +1,9 @@
+0.1.13
+
+Improved:
+- ES6 Map used in Serializer for performance (if available)
+- Serializer will use array based circular path marker instead of string for performance 
+
 0.1.12
 
 Changed:

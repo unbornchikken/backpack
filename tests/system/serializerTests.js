@@ -232,4 +232,17 @@ describe("Serialize", function()
 
         assert.strictEqual(fooKey, fooValue);
     });
+
+    it("should support Backpack Collections", function()
+    {
+        var map = new Map();
+        map.add("a", "b");
+        map.add("c", "d");
+        var ser = new Serializer();
+        var data = ser.toJSON(map);
+        var otherMap = ser.fromJSON(data);
+        assert.ok(otherMap instanceof Map);
+        assert.equal(map["a"], otherMap["a"]);
+        assert.equal(map["c"], otherMap["c"]);
+    });
 });
