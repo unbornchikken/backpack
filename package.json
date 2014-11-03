@@ -27,6 +27,7 @@
     "mocha": "^1.21.0"
   },
   "dependencies": {
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "traceur": "0.0.72"
   }
 }
