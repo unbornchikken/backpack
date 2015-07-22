@@ -1,26 +1,27 @@
-var Serializer = require("../../").system.Serializer;
-var util = require("util");
-var Map = require("../../").collections.Map;
+"use strict";
 
-var assert = require("assert");
+/* global describe,it */
 
-describe("Serialize", function()
-{
-    it("should serialize circular objects", function()
-    {
-        var ser = new Serializer();
+let Serializer = require("../../../").system.Serializer;
+let util = require("util");
+let assert = require("assert");
+let _ = require("lodash");
 
-        var a = { b: 5 };
+describe("Serialize", function () {
+    it("should serialize circular objects", function () {
+        let ser = new Serializer();
+
+        let a = { b: 5 };
         a.c = a;
-        var c = { b: 1, a: a, m: [1, 2, a] };
+        let c = { b: 1, a: a, m: [1, 2, a] };
         c.d = a;
         c.x = c.m;
 
-        var array = [a, c, a, null];
+        let array = [a, c, a, null];
 
-        var a2 = ser.parse(ser.stringify(a));
-        var c2 = ser.fromJSON(ser.toJSON(c));
-        var array2 = ser.parse(ser.stringify(array));
+        let a2 = ser.parse(ser.stringify(a));
+        let c2 = ser.fromJSON(ser.toJSON(c));
+        let array2 = ser.parse(ser.stringify(array));
 
         assert.equal(a2.b, a.b);
         assert.equal(a2.c, a2);
@@ -40,7 +41,7 @@ describe("Serialize", function()
         assert.strictEqual(array2[0].c, array2[0]);
         assert.strictEqual(array2[2], array2[0]);
         assert.strictEqual(array2[3], null);
-        var c3 = array2[1];
+        let c3 = array2[1];
         assert.equal(c3.m.length, c.m.length);
         assert.equal(c3.m[0], c.m[0]);
         assert.equal(c3.m[1], c.m[1]);
@@ -48,52 +49,44 @@ describe("Serialize", function()
         assert.strictEqual(c3.m[2], array2[0]);
         assert.strictEqual(c3.m[2], array2[2]);
     });
-    
-    it("should serialize class hieararchies", function()
-    {
-        function Animal()
-        {
+
+    it("should serialize class hieararchies", function () {
+        function Animal() {
             this.voice = null;
         }
 
-        Animal.prototype.makeSound = function()
-        {
-            if (this.voice)
-            {
+        Animal.prototype.makeSound = function () {
+            if (this.voice) {
                 return "I say: " + this.voice + ".";
             }
         };
 
-        function Cat()
-        {
+        function Cat() {
             Animal.call(this);
             this.voice = "meow";
         }
 
         util.inherits(Cat, Animal);
 
-        function Dog()
-        {
+        function Dog() {
             Animal.call(this);
             this.voice = "bark";
         }
 
         util.inherits(Dog, Animal);
 
-        function SpaceDog()
-        {
+        function SpaceDog() {
             Dog.call(this);
             this.voice = "42";
         }
 
         util.inherits(SpaceDog, Dog);
 
-        var cat = new Cat();
-        var dog = new Dog();
-        var spaceDog = new SpaceDog();
+        let cat = new Cat();
+        let dog = new Dog();
+        let spaceDog = new SpaceDog();
         // Add an instance-only function:
-        spaceDog.futureStuff = function()
-        {
+        spaceDog.futureStuff = function () {
             return "I think, therefore I am.";
         };
 
@@ -109,12 +102,12 @@ describe("Serialize", function()
         assert.ok(spaceDog instanceof Dog);
         assert.ok(spaceDog instanceof SpaceDog);
 
-        var ser = new Serializer();
+        let ser = new Serializer();
         ser.registerKnownType("Cat", Cat);
         ser.registerKnownType("Dog", Dog);
         ser.registerKnownType("SpaceDog", SpaceDog);
 
-        var data = ser.stringify(
+        let data = ser.stringify(
             {
                 cat: cat,
                 dog: dog,
@@ -123,7 +116,7 @@ describe("Serialize", function()
 
         assert.ok(typeof data === "string");
 
-        var deserialized = ser.parse(data);
+        let deserialized = ser.parse(data);
 
         assert.equal(deserialized.cat.makeSound(), "I say: meow.");
         assert.equal(deserialized.dog.makeSound(), "I say: bark.");
@@ -137,19 +130,16 @@ describe("Serialize", function()
         assert.ok(deserialized.spaceDog instanceof Dog);
         assert.ok(deserialized.spaceDog instanceof SpaceDog);
     });
-    
-    it("should support custom serialization", function()
-    {
-        var constructed = 0;
 
-        function Foo()
-        {
+    it("should support custom serialization", function () {
+        let constructed = 0;
+
+        function Foo() {
             this.a = "a";
             this.b = "b";
         }
 
-        function Boo()
-        {
+        function Boo() {
             Foo.call(this);
             this.c = "c";
             constructed++;
@@ -157,8 +147,7 @@ describe("Serialize", function()
 
         util.inherits(Boo, Foo);
 
-        Boo.prototype.serializeToJSON = function()
-        {
+        Boo.prototype.serializeToJSON = function () {
             return {
                 a: this.a,
                 b: this.b,
@@ -166,18 +155,17 @@ describe("Serialize", function()
             };
         };
 
-        Boo.prototype.deserializeFromJSON = function(json)
-        {
+        Boo.prototype.deserializeFromJSON = function (json) {
             this.a = json.a;
             this.b = json.b;
             this.c = json.c;
             this.boo = "boo";
         };
 
-        var ser = new Serializer();
+        let ser = new Serializer();
         ser.registerKnownType("Boo", Boo);
 
-        var boo = new Boo();
+        let boo = new Boo();
 
         assert.equal(constructed, 1);
         assert.equal(boo.a, "a");
@@ -185,7 +173,7 @@ describe("Serialize", function()
         assert.equal(boo.c, "c");
         assert.strictEqual(boo.boo, undefined);
 
-        var boo2 = ser.fromJSON(ser.toJSON(boo));
+        let boo2 = ser.fromJSON(ser.toJSON(boo));
 
         assert.equal(constructed, 1);
         assert.equal(boo2.a, "a");
@@ -195,37 +183,33 @@ describe("Serialize", function()
         assert.ok(boo2 instanceof Boo);
         assert.ok(boo2 instanceof Foo);
 
-        var map = new Map();
-        var foo = new Foo();
+        let map = new Map();
+        let foo = new Foo();
 
-        map.add(foo, boo);
-        map.add(boo2, foo);
+        map.set(foo, boo);
+        map.set(boo2, foo);
 
         ser.registerKnownType("Foo", Foo);
 
-        var mapStr = ser.stringify(map);
-        var map2 = ser.parse(mapStr);
+        let mapStr = ser.stringify(map);
+        let map2 = ser.parse(mapStr);
 
         assert.equal(constructed, 1);
-        assert.equal(map2.count, 2);
+        assert.equal(map2.size, 2);
 
-        var fooValue = null;
-        var fooKey = null;
-        map2.forEach(function(kvp)
-        {
-            if (kvp.key instanceof Boo)
-            {
-                assert.ok(kvp.value instanceof Foo && !(kvp.value instanceof Boo));
-                fooValue = kvp.value;
+        let fooValue = null;
+        let fooKey = null;
+        map2.forEach(function (key, value) {
+            if (key instanceof Boo) {
+                assert.ok(value instanceof Foo && !(value instanceof Boo));
+                fooValue = value;
             }
-            else if (kvp.key instanceof Foo)
-            {
-                assert.ok(kvp.value instanceof Boo);
-                assert.equal(kvp.value.boo, "boo");
-                fooKey = kvp.key;
+            else if (key instanceof Foo) {
+                assert.ok(value instanceof Boo);
+                assert.equal(value.boo, "boo");
+                fooKey = key;
             }
-            else
-            {
+            else {
                 assert.fail("This is not possible.");
             }
         });
@@ -233,16 +217,41 @@ describe("Serialize", function()
         assert.strictEqual(fooKey, fooValue);
     });
 
-    it("should support Backpack Collections", function()
-    {
-        var map = new Map();
-        map.add("a", "b");
-        map.add("c", "d");
-        var ser = new Serializer();
-        var data = ser.toJSON(map);
-        var otherMap = ser.fromJSON(data);
+    it("should support Map", function () {
+        let map = new Map();
+        map.set("a", "b");
+        map.set("c", "d");
+        let ser = new Serializer();
+        let data = ser.toJSON(map);
+        let otherMap = ser.fromJSON(data);
         assert.ok(otherMap instanceof Map);
-        assert.equal(map["a"], otherMap["a"]);
-        assert.equal(map["c"], otherMap["c"]);
+        assert.equal(otherMap.size, 2);
+        assert.equal(otherMap.get("a"), map.get("a"));
+        assert.equal(otherMap.get("c"), map.get("c"));
+    });
+
+    it("should support Set", function () {
+        let set = new Set();
+        set.add("a");
+        set.add("b");
+        set.add("c");
+        set.add(["d", { e: "f" }]);
+        let ser = new Serializer();
+        let data = ser.toJSON(set);
+        let otherSet = ser.fromJSON(data);
+        assert.ok(otherSet instanceof Set);
+        assert.equal(otherSet.size, 4);
+        assert(otherSet.has("a"));
+        assert(otherSet.has("b"));
+        assert(otherSet.has("c"));
+        let all = [];
+        for (let item of otherSet.values()) {
+            all.push(item);
+        }
+        let obj = _(all).filter(function(i) { return _.isArray(i); }).first();
+        assert(_.isArray(obj));
+        assert.equal(obj[0], "d");
+        assert(_.isObject(obj[1]));
+        assert.equal(obj[1].e, "f");
     });
 });

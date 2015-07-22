@@ -1,3 +1,7 @@
+0.2.0
+
+Rehashed module for the sake of ES6 compatibility. Basically all collections has been removed. Bag is just a placeholder for now.
+
 0.1.13
 
 Improved:
