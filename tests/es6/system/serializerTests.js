@@ -254,4 +254,28 @@ describe("Serialize", function () {
         assert(_.isObject(obj[1]));
         assert.equal(obj[1].e, "f");
     });
+
+    it("should support Date", function () {
+        let obj = {
+            a: new Date()
+        };
+        let ser = new Serializer();
+        let data = ser.toJSON(obj);
+        let otherObj = ser.fromJSON(data);
+        assert(_.isPlainObject(otherObj));
+        assert(_.isDate(otherObj.a));
+        assert.equal(otherObj.a.getTime(), obj.a.getTime());
+    });
+
+    it("should support Regex", function () {
+        let obj = {
+            a: /abc/g
+        };
+        let ser = new Serializer();
+        let data = ser.toJSON(obj);
+        let otherObj = ser.fromJSON(data);
+        assert(_.isPlainObject(otherObj));
+        assert(_.isRegExp(otherObj.a));
+        assert.equal(otherObj.a.toString(), obj.a.toString());
+    });
 });
