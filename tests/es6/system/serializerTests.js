@@ -278,4 +278,29 @@ describe("Serialize", function () {
         assert(_.isRegExp(otherObj.a));
         assert.equal(otherObj.a.toString(), obj.a.toString());
     });
+
+    it("should serialize functions", function() {
+        let f = function() {
+            return "Hello!";
+        };
+        let ser = new Serializer();
+        let data = ser.toJSON(f);
+        assert(_.isPlainObject(data));
+        let otherF = ser.fromJSON(data);
+        assert(_.isFunction(otherF));
+        assert.equal("Hello!", otherF());
+    });
+
+    it("should serialize function properties", function() {
+        let f = function() {
+            return "Hello!";
+        };
+        let obj = { f: f };
+        let ser = new Serializer();
+        let data = ser.toJSON(obj);
+        assert(_.isPlainObject(data));
+        let otherObj = ser.fromJSON(data);
+        assert(_.isFunction(otherObj.f));
+        assert.equal("Hello!", otherObj.f());
+    });
 });
