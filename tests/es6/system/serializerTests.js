@@ -279,6 +279,27 @@ describe("Serialize", function () {
         assert.equal(otherObj.a.toString(), obj.a.toString());
     });
 
+    it("should support Typed Arrays", function () {
+        let arrays = [
+          new Int8Array([1,2,3,4,5,-1,-2]),
+          new Uint8Array([1,2,3,4,5]),
+          new Uint8ClampedArray([1,2,3,4,5]),
+          new Int16Array([1,2,3,4,5,-1,-2]),
+          new Uint16Array([1,2,3,4,5]),
+          new Int32Array([1,2,3,4,5,-1,-2]),
+          new Uint32Array([1,2,3,4,5]),
+          new Float32Array([0.5,0.6,0.7,0.8,-0.5]),
+          new Float64Array([0.5,0.6,0.7,0.8,-0.5])
+        ];
+        let ser = new Serializer();
+        for (let arr of arrays) {
+          let data = ser.toJSON(arr);
+          let otherArr = ser.fromJSON(data);
+          assert(_.isTypedArray(otherArr));
+          assert.equal(otherArr.toString(), arr.toString());
+        }
+    });
+
     it("should serialize functions", function() {
         let f = function() {
             return "Hello!";
