@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/unbornchikken/backpack.git"
   },
+  "scripts": {
+    "test": "mocha tests"
+  },
   "main": "./index",
   "licenses": "MIT",
   "engines": [
